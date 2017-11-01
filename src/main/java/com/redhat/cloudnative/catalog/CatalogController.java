@@ -16,6 +16,7 @@ public class CatalogController {
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getAll() {
+        System.out.println("getAll 1");
         Spliterator<Product> products = repository.findAll().spliterator();
         return StreamSupport.stream(products, false).collect(Collectors.toList());
     }
