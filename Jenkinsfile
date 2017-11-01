@@ -1,17 +1,17 @@
 node("maven") {
-  stage("Build JAR") {
-    git url: "https://github.com/burrsutter/inventory-wildfly-swarm"
+  stage("Build Fat JAR") {
+    git url: "https://github.com/burrsutter/catalog-spring-boot"
     sh "mvn clean package"
-    stash name:"jar", includes:"target/inventory-1.0-SNAPSHOT-swarm.jar"
+    stash name:"jar", includes:"target/catalog-1.0-SNAPSHOT.jar"
   }
 
   stage("Build Image") {
     unstash name:"jar"
-    sh "oc start-build inventory-s2i --from-file=target/inventory-1.0-SNAPSHOT-swarm.jar"
-    openshiftVerifyBuild bldCfg: "inventory-s2i", waitTime: '19', waitUnit: 'min'
+    sh "oc start-build catalog-s2i --from-file=target/catalog-1.0-SNAPSHOT.jar"
+    openshiftVerifyBuild bldCfg: "catalog-s2i", waitTime: '19', waitUnit: 'min'
   }
 
   stage("Deploy") {
-    openshiftDeploy deploymentConfig: "inventory"
+    openshiftDeploy deploymentConfig: "catalog"
   }
 }
