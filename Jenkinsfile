@@ -1,6 +1,6 @@
 node("maven") {
   stage("Build Fat JAR") {
-    git url: "https://github.com/burrsutter/catalog-spring-boot"
+    git url: "https://github.com/glamperi/catalog-spring-boot"
     sh "mvn clean package"
     stash name:"jar", includes:"target/catalog-1.0-SNAPSHOT.jar"
   }
